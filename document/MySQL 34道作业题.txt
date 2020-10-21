@@ -1,0 +1,29 @@
+1、取得每个部门最高薪水的人员名称
+
+第一步：取得每个部门最高薪水
+select deptno,max(sal) as maxsal from emp group by deptno;
++--------+---------+
+| deptno | maxsal  |
++--------+---------+
+|     10 | 5000.00 |
+|     20 | 3000.00 |
+|     30 | 2850.00 |
++--------+---------+
+第二步：将以上结果当做临时表t，t表和emp e表进行连接，条件是：t.deptno = e.deptno and t.maxsal = e.sal
+select 
+	e.ename,t.*
+from
+	(select deptno,max(sal) as maxsal from emp group by deptno) t
+join
+	emp e
+on
+	t.deptno = e.deptno and t.maxsal = e.sal;
+
++-------+--------+---------+
+| ename | deptno | maxsal  |
++-------+--------+---------+
+| BLAKE |     30 | 2850.00 |
+| SCOTT |     20 | 3000.00 |
+| KING  |     10 | 5000.00 |
+| FORD  |     20 | 3000.00 |
++-------+--------+---------+
